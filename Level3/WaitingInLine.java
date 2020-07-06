@@ -1,52 +1,29 @@
 package Level3;
 
+import java.util.*;
+
 public class WaitingInLine {
 	
-	static boolean next_permutation(int [] a) {
-		int i = a.length-1;
-		while(i>0 && a[i-1]>=a[i]) {
-			i--;
-		}
-		if (i<=0) {
-			return false;
-		}
-		int j = a.length-1;
-		while (a[j]<=a[i-1]) {
-			j--;
-		}
-		int tmp = a[j];
-		a[j] = a[i-1];
-		a[i-1] = tmp;
-		
-		j = a.length -1;
-		while(i<j) {
-			tmp = a[j];
-			a[j] = a[i];
-			a[i] = tmp;
-			i++;
-			j--;
-		}
-		return true;
-	}
-	
-	
-	public int[] solution(int n, long k) {
-		int[] answer = {};
-		
-		int [] a = new int [n+1];
-		for (int i=1; i<=n; i++) {
-			a[i] = i;
-		}
-		
-		do {
-			for (int i=0; i<n; i++) {
-				System.out.println(a[i] + " ");
-			}
-			System.out.println();
-		}while(next_permutation(a));
-		
-		
-		
-		return answer;
-	}
+	 public int[] solution(int N, long k) {
+	        k--;
+	        long[] f = new long[21];
+	        f[0] = 1;
+	        for (int i = 1; i < N; i++) f[i] = f[i - 1] * i;
+	        
+	        int[] answer = new int[N];
+	        int ai = 0;
+	        List<Integer> remaining = new ArrayList<>();
+	        for (int i = 1; i <= N; i++) remaining.add(i);
+	        for (int n = N; n > 0; n--) {
+	            int i = (int)(k / f[n - 1]);
+	            answer[ai++] = remaining.get(i);
+	            remaining.remove(i);
+	            k %= f[n - 1];
+	        }
+	        return answer;
+	    }
 }
+
+
+
+
